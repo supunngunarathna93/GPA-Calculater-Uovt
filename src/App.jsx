@@ -487,37 +487,6 @@ export default function App() {
           </div>
         </header>
 
-        {/* ── Prominent On-Screen Final GPA Hero Banner ───────────────────── */}
-        <section className={`screen-fgpa-banner card ${isPulsing ? 'is-pulsing' : ''}`} aria-label="Final Cumulative GPA Overview">
-          <div className="banner-left">
-            <div className="banner-tag">
-              <span className="live-dot" />
-              <span>UOVT Degree Performance • Handbook 2023–24</span>
-            </div>
-            <h2 className="banner-title">{programme.label}</h2>
-            <div className="banner-sub">
-              <span><strong>{gradedMods}</strong> of {totalMods} modules graded</span> &bull;{' '}
-              <span><strong>{earned}</strong> / {GRADUATION_CREDITS} credits earned</span>
-            </div>
-          </div>
-          <div className={`fgpa-display-box ${isPulsing ? 'is-pulsing' : ''}`}>
-            <span className="box-label">FINAL CUMULATIVE GPA</span>
-            <div className="box-val-row">
-              <span className="box-val" key={overall.gpa ?? 'empty'}>
-                {overall.gpa === null ? '—' : overall.gpa.toFixed(2)}
-              </span>
-              {gpaDelta !== null && isPulsing && (
-                <span className={`box-delta ${gpaDelta > 0 ? 'pos' : 'neg'}`}>
-                  {gpaDelta > 0 ? `+${gpaDelta.toFixed(2)}` : gpaDelta.toFixed(2)}
-                </span>
-              )}
-            </div>
-            <div className="box-award">
-              {awardClass || 'Enter grades to begin'}
-            </div>
-          </div>
-        </section>
-
         {/* Semester Accordions grouped by year */}
         {Object.entries(yearGroups).map(([year, sems]) => (
           <div className="year-group" id={`year-${year}`} key={year}>
