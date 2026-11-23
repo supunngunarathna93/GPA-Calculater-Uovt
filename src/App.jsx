@@ -487,6 +487,18 @@ export default function App() {
           </div>
         </header>
 
+        {/* ── Main content course header ──────────────────────────────────── */}
+        <header className="course-screen-header">
+          <div className="course-badge">
+            <span className="course-dot" />
+            <span>UOVT &bull; Faculty of Information Technology</span>
+          </div>
+          <h1 className="course-title">{programme.label}</h1>
+          <p className="course-meta">
+            B.Tech Curriculum &bull; Student Handbook 2023&ndash;24 &bull; 180 Credits Degree
+          </p>
+        </header>
+
         {/* Semester Accordions grouped by year */}
         {Object.entries(yearGroups).map(([year, sems]) => (
           <div className="year-group" id={`year-${year}`} key={year}>

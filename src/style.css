@@ -611,6 +611,50 @@ button.danger:focus-visible { outline: 2px solid var(--warn); outline-offset: 2p
   min-width: 0;
 }
 
+/* ─── Main Content Course Screen Header ─────────────────────────────────── */
+.course-screen-header {
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.course-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  margin-bottom: var(--sp-1);
+}
+
+.course-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.course-title {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
+  color: var(--bone-bright);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 var(--sp-2) 0;
+}
+
+.course-meta {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--smoke);
+  margin: 0;
+}
+
 /* ─── Year group headings ────────────────────────────────────────────────── */
 .year-group { margin-bottom: var(--sp-8); }
 
@@ -1270,6 +1314,7 @@ footer {
 
   /* Hide screen chrome & controls */
   .sidebar,
+  .course-screen-header,
   .floating-fgpa-hud,
   .fgpa-badge,
   .add-custom,
