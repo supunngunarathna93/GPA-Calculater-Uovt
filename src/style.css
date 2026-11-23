@@ -42,6 +42,10 @@
   --font-sans:            'Source Sans 3', system-ui, -apple-system, sans-serif;
   --font-mono:            'JetBrains Mono', ui-monospace, monospace;
 
+  /* Animation Easing Tokens (Emil Kowalski Philosophy) */
+  --ease-out:             cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out:         cubic-bezier(0.77, 0, 0.175, 1);
+
   /* 4-unit spacing */
   --sp-1: 4px;
   --sp-2: 8px;
@@ -248,6 +252,12 @@ body {
   color: var(--amber-bright);
   line-height: 1;
   letter-spacing: -0.02em;
+  animation: val-pop 0.22s var(--ease-out) both;
+}
+
+@keyframes val-pop {
+  from { transform: scale(0.96); opacity: 0.85; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 .fgpa-class {
@@ -277,7 +287,7 @@ body {
   letter-spacing: 0.02em;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(212, 168, 67, 0.22);
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.12s var(--ease-out), background-color 0.15s, box-shadow 0.15s;
 }
 
 .btn-download:hover {
@@ -287,7 +297,7 @@ body {
 }
 
 .btn-download:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .btn-download:focus-visible {
@@ -661,7 +671,7 @@ tfoot tr.semester-summary-row td {
 .chevron {
   color: var(--smoke);
   flex-shrink: 0;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s var(--ease-out), color 0.18s;
 }
 
 .semester-accordion.is-open .chevron { transform: rotate(180deg); color: var(--amber); }
@@ -674,7 +684,15 @@ tfoot tr.semester-summary-row td {
   background: var(--surface);
 }
 
-.semester-accordion.is-open .sem-body { display: block; }
+.semester-accordion.is-open .sem-body {
+  display: block;
+  animation: accordion-expand 0.22s var(--ease-out) both;
+}
+
+@keyframes accordion-expand {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ─── Tables ─────────────────────────────────────────────────────────────── */
 table {
@@ -762,6 +780,12 @@ tr.non-gpa td.title { font-style: italic; }
   background: var(--amber-glow);
   border: 1px solid var(--amber-border-strong);
   box-shadow: 0 2px 10px rgba(212, 168, 67, 0.12);
+  animation: grade-settle 0.18s var(--ease-out) both;
+}
+
+@keyframes grade-settle {
+  from { transform: scale(0.94); }
+  to   { transform: scale(1); }
 }
 
 .grade-picker-wrap.has-grade:hover {
@@ -1316,4 +1340,23 @@ footer {
 
 @media (max-width: 480px) {
   .stat-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Mount Entrance Animation (Emil Kowalski Philosophy) ──────────────── */
+@keyframes mount-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sidebar      { animation: mount-in 0.24s var(--ease-out) both; }
+.main-content { animation: mount-in 0.28s 0.05s var(--ease-out) both; }
+
+/* ─── Reduced Motion Gating ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
