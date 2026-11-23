@@ -270,7 +270,7 @@ function render() {
                   <span class="sem-toggle-title">${esc(sem.label)}</span>
                   <span class="sem-toggle-meta">
                     <span class="sem-graded">${graded}/${mods.length} graded</span>
-                    <span class="sgpa-badge">${sgpa.gpa === null ? "—" : sgpa.gpa.toFixed(2)}</span>
+                    <span class="sgpa-badge"><span class="sgpa-badge-label">SGPA</span> <strong>${sgpa.gpa === null ? "—" : sgpa.gpa.toFixed(2)}</strong></span>
                     <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -316,6 +316,16 @@ function render() {
                         </tr>`;
                       }).join("")}
                     </tbody>
+                    <tfoot>
+                      <tr class="semester-summary-row">
+                        <td colspan="2" class="sem-sum-title">Semester Total</td>
+                        <td class="col-credits sem-sum-cr">${sgpa.credits} Cr</td>
+                        <td class="col-type"></td>
+                        <td class="col-grade sem-sum-sgpa-lbl">SGPA:</td>
+                        <td class="col-points sem-sum-sgpa-val">${sgpa.gpa === null ? "—" : sgpa.gpa.toFixed(2)}</td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
                   </table>
 
                   <details class="add-custom">
