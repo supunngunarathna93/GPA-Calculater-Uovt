@@ -95,7 +95,20 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--amber-dim); }
 
 /* ─── Shell: sidebar + main ─────────────────────────────────────────────── */
-#app { max-width: 1240px; margin: 0 auto; }
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 1440px) {
+  #app {
+    max-width: 1360px;
+  }
+  :root {
+    --sidebar-w: 300px;
+  }
+}
 
 .layout-shell {
   display: grid;
@@ -253,14 +266,18 @@ body {
 
 /* ─── FGPA hero stat ─────────────────────────────────────────────────────── */
 .stat-hero {
-  flex-shrink: 0;
-  min-height: 125px;
+  flex-shrink: 0 !important;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: linear-gradient(145deg, #221d15 0%, #16151c 55%, #251e12 100%);
   border: 1.5px solid rgba(212, 168, 67, 0.75);
   border-radius: var(--radius-md);
   padding: var(--sp-4) var(--sp-5);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), 0 0 24px rgba(212, 168, 67, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   position: relative;
+  overflow: visible !important;
   transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
 
@@ -1607,10 +1624,33 @@ footer p:first-child {
   }
 }
 
+/* ─── Tablet & Small Laptop (<= 1024px) ─────────────────────────────────── */
 @media (max-width: 1024px) {
-  :root { --sidebar-w: 250px; }
+  :root { --sidebar-w: 240px; }
+  .sidebar {
+    padding: var(--sp-5) var(--sp-4);
+    gap: var(--sp-4);
+  }
+  .main-content {
+    padding: var(--sp-5) var(--sp-5) var(--sp-8);
+  }
 }
 
+@media (max-width: 920px) {
+  /* Hide Type column on tablet portrait to prevent squished module names */
+  .col-type,
+  th:nth-child(4) {
+    display: none;
+  }
+  td.title {
+    font-size: 0.88rem;
+  }
+  .grade-picker-wrap {
+    min-width: 82px;
+  }
+}
+
+/* ─── Phablet & Mobile Screen (<= 720px) ─────────────────────────────────── */
 @media (max-width: 720px) {
   .layout-shell {
     grid-template-columns: 1fr;
@@ -1657,8 +1697,10 @@ footer p:first-child {
   }
 
   .stat-hero {
-    padding: 12px 14px;
-    min-height: auto;
+    padding: 14px 16px;
+    min-height: 118px !important;
+    width: 100%;
+    flex-shrink: 0 !important;
   }
 
   .stat-hero .label {
@@ -2086,6 +2128,68 @@ footer p:first-child {
     padding: 4px 8px;
     font-size: 0.65rem;
     border-radius: 6px;
+  }
+}
+
+/* ─── Ultra-compact Phones (<= 360px, e.g. iPhone SE 1st gen, Galaxy Fold) ─ */
+@media (max-width: 360px) {
+  .stat-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .programme-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-hero {
+    padding: 12px 12px;
+  }
+
+  .fgpa-value {
+    font-size: 2.1rem;
+  }
+
+  .hud-award {
+    max-width: 75px;
+  }
+
+  .course-title {
+    font-size: 1.05rem;
+  }
+
+  .sem-toggle-title {
+    font-size: 0.85rem;
+  }
+}
+
+/* ─── Landscape Phone Orientation (Short Viewport <= 520px) ─────────────── */
+@media (max-height: 520px) and (orientation: landscape) {
+  .sidebar {
+    padding: var(--sp-3) var(--sp-4);
+    gap: var(--sp-3);
+  }
+
+  .stat-hero {
+    min-height: 105px !important;
+    padding: 10px 14px;
+  }
+
+  .stat-hero-val-row {
+    min-height: 38px;
+    margin: 2px 0 2px;
+  }
+
+  .fgpa-value {
+    font-size: 2.2rem;
+  }
+
+  .floating-fgpa-hud {
+    bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+    padding: 4px 10px;
+  }
+
+  .hud-gpa-val {
+    font-size: 1.35rem;
   }
 }
 

@@ -302,7 +302,7 @@ export default function App() {
         <p className="programme-name">{programme.label}</p>
 
         {/* FGPA hero stat */}
-        <div className={`stat-hero card ${isPulsing ? 'is-pulsing' : ''}`}>
+        <div className={`stat-hero ${isPulsing ? 'is-pulsing' : ''}`}>
           <div className="stat-hero-top">
             <span className="label">Final GPA</span>
             <span className="live-indicator-badge">
