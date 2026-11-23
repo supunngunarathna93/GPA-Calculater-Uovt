@@ -326,6 +326,9 @@ function render() {
                           : null;
                         const isCustom = state.custom.some((c) => c.code === mod.code && c.programme === state.programme);
                         const isGraded = Boolean(entry.grade);
+                        const gradeClass = entry.grade
+                          ? `grade-${entry.grade.replace("+", "-plus").replace("-", "-minus").toLowerCase()}`
+                          : "grade-empty";
                         return `
                         <tr data-code="${esc(mod.code)}" class="${mod.gpa ? "" : "non-gpa"}${mod.type === "E" ? " elective" : ""}${isGraded ? " is-graded" : " is-ungraded"}">
                           <td class="code">${esc(mod.code)}</td>
@@ -333,11 +336,34 @@ function render() {
                           <td class="credits col-credits">${mod.credits}</td>
                           <td class="type col-type">${mod.gpa ? "GPA" : "Non-GPA"}${mod.type === "E" ? " &middot; Elective" : ""}</td>
                           <td class="col-grade">
-                            <select class="grade" data-code="${esc(mod.code)}" aria-label="Grade for ${esc(mod.code)}">
-                              ${GRADE_OPTIONS.map(
-                                (g) => `<option value="${g}" ${entry.grade === g ? "selected" : ""}>${g === "" ? "—" : g}</option>`
-                              ).join("")}
-                            </select>
+                            <div class="grade-picker-wrap ${isGraded ? "has-grade " + gradeClass : "is-empty"}">
+                              <select class="grade" data-code="${esc(mod.code)}" aria-label="Grade for ${esc(mod.code)}">
+                                <option value="" ${!entry.grade ? "selected" : ""}>— Grade —</option>
+                                <optgroup label="Honors & Passing Grades (GPA)">
+                                  <option value="A+" ${entry.grade === "A+" ? "selected" : ""}>A+ (4.0)</option>
+                                  <option value="A" ${entry.grade === "A" ? "selected" : ""}>A (4.0)</option>
+                                  <option value="A-" ${entry.grade === "A-" ? "selected" : ""}>A− (3.7)</option>
+                                  <option value="B+" ${entry.grade === "B+" ? "selected" : ""}>B+ (3.3)</option>
+                                  <option value="B" ${entry.grade === "B" ? "selected" : ""}>B (3.0)</option>
+                                  <option value="B-" ${entry.grade === "B-" ? "selected" : ""}>B− (2.7)</option>
+                                  <option value="C+" ${entry.grade === "C+" ? "selected" : ""}>C+ (2.3)</option>
+                                  <option value="C" ${entry.grade === "C" ? "selected" : ""}>C (2.0)</option>
+                                  <option value="C-" ${entry.grade === "C-" ? "selected" : ""}>C− (1.7)</option>
+                                  <option value="D+" ${entry.grade === "D+" ? "selected" : ""}>D+ (1.3)</option>
+                                  <option value="D" ${entry.grade === "D" ? "selected" : ""}>D (1.0)</option>
+                                </optgroup>
+                                <optgroup label="Special & Excluded Grades">
+                                  <option value="F" ${entry.grade === "F" ? "selected" : ""}>F (0.0 — Fail)</option>
+                                  <option value="Pass" ${entry.grade === "Pass" ? "selected" : ""}>Pass (Credits)</option>
+                                  <option value="I" ${entry.grade === "I" ? "selected" : ""}>I (Incomplete)</option>
+                                </optgroup>
+                              </select>
+                              <span class="picker-chevron" aria-hidden="true">
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </span>
+                            </div>
                           </td>
                           <td class="points col-points">${pts === null ? "—" : pts.toFixed(1)}</td>
                           <td>${isCustom ? `<button type="button" class="remove-custom" data-code="${esc(mod.code)}" title="Remove custom module">&times;</button>` : ""}</td>

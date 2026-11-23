@@ -738,35 +738,146 @@ td.code {
 tr.non-gpa td { opacity: 0.65; }
 tr.non-gpa td.title { font-style: italic; }
 
-/* ─── Grade inputs ───────────────────────────────────────────────────────── */
-select.grade {
-  padding: 6px 10px;
-  font-size: 0.88rem;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  background: var(--surface-2);
-  color: var(--bone-bright);
-  border: 1px solid var(--border-2);
+/* ─── Redesigned Grade Dropdown Menu ─────────────────────────────────────── */
+.grade-picker-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-sm);
-  width: 84px;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23d4a843' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 9px center;
-  padding-right: 26px;
-  cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 96px;
 }
 
-select.grade:hover {
+.grade-picker-wrap.is-empty {
+  background: var(--surface-2);
+  border: 1px dashed var(--border-2);
+}
+
+.grade-picker-wrap.is-empty:hover {
   border-color: var(--amber-border-strong);
-  background-color: var(--surface-3);
+  background: var(--surface-3);
 }
 
-select.grade:focus {
-  outline: none;
+.grade-picker-wrap.has-grade {
+  background: var(--amber-glow);
+  border: 1px solid var(--amber-border-strong);
+  box-shadow: 0 2px 10px rgba(212, 168, 67, 0.12);
+}
+
+.grade-picker-wrap.has-grade:hover {
   border-color: var(--amber);
+  box-shadow: 0 2px 14px rgba(212, 168, 67, 0.22);
+}
+
+/* Honors: A+, A, A- */
+.grade-picker-wrap.grade-a-plus,
+.grade-picker-wrap.grade-a,
+.grade-picker-wrap.grade-a-minus {
+  background: rgba(212, 168, 67, 0.14);
+  border-color: rgba(212, 168, 67, 0.55);
+}
+
+/* Special: Fail */
+.grade-picker-wrap.grade-f {
+  background: var(--warn-pale);
+  border-color: rgba(224, 82, 68, 0.45);
+  box-shadow: 0 2px 8px rgba(224, 82, 68, 0.15);
+}
+
+/* Special: Pass */
+.grade-picker-wrap.grade-pass {
+  background: rgba(56, 178, 105, 0.14);
+  border-color: rgba(56, 178, 105, 0.45);
+}
+
+/* Select element inside wrapper */
+select.grade {
+  width: 100%;
+  padding: 5px 26px 5px 10px;
+  font-size: 0.84rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  background: transparent;
+  color: var(--bone-bright);
+  border: none;
+  border-radius: var(--radius-sm);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.grade-picker-wrap.is-empty select.grade {
+  color: var(--smoke);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.grade-picker-wrap.has-grade select.grade {
+  color: var(--amber-bright);
+}
+
+.grade-picker-wrap.grade-f select.grade {
+  color: var(--warn);
+}
+
+.grade-picker-wrap.grade-pass select.grade {
+  color: var(--green);
+}
+
+/* Native Option Popover Theming */
+select.grade optgroup {
+  background: #111114;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 6px;
+}
+
+select.grade option {
+  background: #18181d;
+  color: var(--bone-bright);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 500;
+  padding: 6px 10px;
+}
+
+select.grade option:hover,
+select.grade option:checked {
+  background: var(--surface-3);
+  color: var(--amber-bright);
+}
+
+/* Custom Chevron Indicator */
+.picker-chevron {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  color: var(--smoke);
+  display: flex;
+  align-items: center;
+  transition: transform 0.18s, color 0.18s;
+}
+
+.grade-picker-wrap.has-grade .picker-chevron {
+  color: var(--amber);
+}
+
+.grade-picker-wrap.grade-f .picker-chevron {
+  color: var(--warn);
+}
+
+.grade-picker-wrap:hover .picker-chevron {
+  transform: translateY(1px);
+}
+
+.grade-picker-wrap:focus-within {
   box-shadow: 0 0 0 2px var(--amber-glow);
+  border-color: var(--amber);
 }
 
 /* ─── Custom module controls ─────────────────────────────────────────────── */
@@ -1145,6 +1256,18 @@ footer {
     font-weight: 600;
   }
 
+  .grade-picker-wrap {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-width: auto !important;
+  }
+
+  .picker-chevron {
+    display: none !important;
+  }
+
   select.grade {
     border: none !important;
     background: transparent !important;
@@ -1187,7 +1310,8 @@ footer {
 
   .col-type, th:nth-child(4) { display: none; }
 
-  select.grade { width: 72px; }
+  .grade-picker-wrap { min-width: 80px; }
+  select.grade { width: 100%; }
 }
 
 @media (max-width: 480px) {
