@@ -438,6 +438,7 @@ export default function App() {
           <button type="button" id="reset-btn" className="danger" onClick={handleReset}>
             Clear all grades
           </button>
+          <p className="dev-credit">Developed by <strong>Xelora Team</strong></p>
         </div>
       </aside>
 
@@ -801,6 +802,7 @@ export default function App() {
 
         <footer>
           <p>Built from the UOVT Student Handbook 2023&ndash;24. Check your numbers against your official transcript.</p>
+          <p className="dev-credit">Developed by <strong>Xelora Team</strong></p>
         </footer>
       </main>
 

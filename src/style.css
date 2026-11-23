@@ -601,7 +601,30 @@ body {
 }
 
 /* ─── Sidebar footer ─────────────────────────────────────────────────────── */
-.sidebar-footer { margin-top: auto; padding-top: var(--sp-4); border-top: 1px solid var(--border); }
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.dev-credit {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--smoke);
+  letter-spacing: 0.04em;
+  text-align: center;
+  font-style: normal;
+  margin-top: var(--sp-2);
+}
+
+.dev-credit strong {
+  color: var(--amber-bright);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
 
 button.danger {
   width: 100%;
@@ -1306,6 +1329,13 @@ footer {
   border-top: 1px solid var(--border);
   color: var(--fog);
   font-size: 0.82rem;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+footer p:first-child {
   font-style: italic;
   font-family: var(--font-display);
 }
