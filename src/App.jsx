@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { PROGRAMMES } from './data.js';
 import {
   GRADE_SCALE,
@@ -47,6 +47,10 @@ export default function App() {
   const [appState, setAppState] = useState(loadSavedState);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [statusMode, setStatusMode] = useState('saved');
+  const [lastEditedCode, setLastEditedCode] = useState(null);
+  const [gpaDelta, setGpaDelta] = useState(null);
+  const [isPulsing, setIsPulsing] = useState(false);
+  const prevGpaRef = useRef(null);
 
   const { programme: progKey, entries, custom, openSemesters, targetFloor } = appState;
 
@@ -90,6 +94,24 @@ export default function App() {
   const earned = useMemo(() => creditsEarned(allProgrammeModules, entries), [allProgrammeModules, entries]);
   const awardClass = useMemo(() => classFor(overall.gpa), [overall.gpa]);
 
+  // Live FGPA change detection & visual pulse
+  useEffect(() => {
+    if (prevGpaRef.current !== null && overall.gpa !== null) {
+      const diff = round2(overall.gpa - prevGpaRef.current);
+      if (diff !== 0) {
+        setGpaDelta(diff);
+        setIsPulsing(true);
+        const timer = setTimeout(() => setIsPulsing(false), 1400);
+        return () => clearTimeout(timer);
+      }
+    } else if (prevGpaRef.current === null && overall.gpa !== null) {
+      setIsPulsing(true);
+      const timer = setTimeout(() => setIsPulsing(false), 1400);
+      return () => clearTimeout(timer);
+    }
+    prevGpaRef.current = overall.gpa;
+  }, [overall.gpa]);
+
   // Progress stats
   const totalMods = allProgrammeModules.length;
   const gradedMods = useMemo(() => allProgrammeModules.filter((m) => entries[m.code]?.grade).length, [allProgrammeModules, entries]);
@@ -125,12 +147,16 @@ export default function App() {
 
   // Actions
   const handleProgrammeChange = useCallback((key) => {
+    prevGpaRef.current = null;
+    setGpaDelta(null);
+    setIsPulsing(false);
     setAppState((prev) => ({ ...prev, programme: key }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleGradeChange = useCallback((code, grade) => {
     setStatusMode('saving');
+    setLastEditedCode(code);
     setAppState((prev) => {
       const nextEntries = { ...prev.entries };
       if (!grade) {
@@ -209,6 +235,9 @@ export default function App() {
 
   const handleReset = useCallback(() => {
     if (!confirm(`Clear every grade and custom module for ${programme.short}?`)) return;
+    prevGpaRef.current = null;
+    setGpaDelta(null);
+    setIsPulsing(false);
     setAppState((prev) => {
       const codes = new Set(allProgrammeModules.map((m) => m.code));
       const nextEntries = { ...prev.entries };
@@ -268,11 +297,23 @@ export default function App() {
         <p className="programme-name">{programme.label}</p>
 
         {/* FGPA hero stat */}
-        <div className="stat-hero card">
-          <span className="label">Final GPA</span>
-          <span className="fgpa-value" key={overall.gpa ?? 'empty'}>
-            {overall.gpa === null ? '—' : overall.gpa.toFixed(2)}
-          </span>
+        <div className={`stat-hero card ${isPulsing ? 'is-pulsing' : ''}`}>
+          <div className="stat-hero-top">
+            <span className="label">Final GPA</span>
+            <span className="live-indicator-badge">
+              <span className="live-dot" /> LIVE
+            </span>
+          </div>
+          <div className="stat-hero-val-row">
+            <span className="fgpa-value" key={overall.gpa ?? 'empty'}>
+              {overall.gpa === null ? '—' : overall.gpa.toFixed(2)}
+            </span>
+            {gpaDelta !== null && isPulsing && (
+              <span className={`fgpa-delta-pill ${gpaDelta > 0 ? 'pos' : 'neg'}`}>
+                {gpaDelta > 0 ? `+${gpaDelta.toFixed(2)}` : gpaDelta.toFixed(2)}
+              </span>
+            )}
+          </div>
           <span className="fgpa-class">
             {awardClass || 'Enter grades to begin'}
           </span>
@@ -483,6 +524,10 @@ export default function App() {
                         <span className="sgpa-badge-label">SGPA</span>{' '}
                         <strong>{sgpa.gpa === null ? '—' : sgpa.gpa.toFixed(2)}</strong>
                       </span>
+                      <span className={`fgpa-badge ${isPulsing ? 'is-pulsing' : ''}`}>
+                        <span className="fgpa-badge-label">FGPA</span>{' '}
+                        <strong>{overall.gpa === null ? '—' : overall.gpa.toFixed(2)}</strong>
+                      </span>
                       <svg
                         className="chevron"
                         width="16"
@@ -534,7 +579,7 @@ export default function App() {
                             <tr
                               key={mod.code}
                               data-code={mod.code}
-                              className={`${mod.gpa ? '' : 'non-gpa'}${mod.type === 'E' ? ' elective' : ''}${isGraded ? ' is-graded' : ' is-ungraded'}`}
+                              className={`${mod.gpa ? '' : 'non-gpa'}${mod.type === 'E' ? ' elective' : ''}${isGraded ? ' is-graded' : ' is-ungraded'}${lastEditedCode === mod.code ? ' is-recently-edited' : ''}`}
                             >
                               <td className="code">{mod.code}</td>
                               <td className="title">{mod.title}</td>
@@ -612,9 +657,15 @@ export default function App() {
                           </td>
                           <td className="col-credits sem-sum-cr">{sgpa.credits} Cr</td>
                           <td className="col-type"></td>
-                          <td className="col-grade sem-sum-sgpa-lbl">SGPA:</td>
-                          <td className="col-points sem-sum-sgpa-val">
-                            {sgpa.gpa === null ? '—' : sgpa.gpa.toFixed(2)}
+                          <td className="col-grade sem-sum-sgpa-lbl">
+                            <span className="sum-tag">SGPA</span>{' '}
+                            <strong>{sgpa.gpa === null ? '—' : sgpa.gpa.toFixed(2)}</strong>
+                          </td>
+                          <td className="col-points sem-sum-fgpa-cell">
+                            <span className="sum-tag">Cumulative FGPA</span>{' '}
+                            <strong className={`sum-fgpa-val ${isPulsing ? 'is-pulsing' : ''}`}>
+                              {overall.gpa === null ? '—' : overall.gpa.toFixed(2)}
+                            </strong>
                           </td>
                           <td></td>
                         </tr>
@@ -727,6 +778,41 @@ export default function App() {
           <p>Built from the UOVT Student Handbook 2023&ndash;24. Check your numbers against your official transcript.</p>
         </footer>
       </main>
+
+      {/* ── Persistent Floating Live FGPA HUD ──────────────────────────────── */}
+      <aside
+        className={`floating-fgpa-hud ${isPulsing ? 'is-pulsing' : ''} ${gradedMods > 0 ? 'is-visible' : 'is-idle'}`}
+        aria-label="Live Final GPA Monitor"
+      >
+        <div className="hud-inner">
+          <div className="hud-badge-tag">
+            <span className="live-dot" />
+            <span className="hud-badge-title">LIVE FGPA</span>
+          </div>
+          <div className="hud-value-group">
+            <span className="hud-gpa-val" key={overall.gpa ?? 'empty'}>
+              {overall.gpa === null ? '—' : overall.gpa.toFixed(2)}
+            </span>
+            {gpaDelta !== null && isPulsing && (
+              <span className={`hud-delta ${gpaDelta > 0 ? 'pos' : 'neg'}`}>
+                {gpaDelta > 0 ? `+${gpaDelta.toFixed(2)}` : gpaDelta.toFixed(2)}
+              </span>
+            )}
+          </div>
+          <div className="hud-meta-group">
+            <span className="hud-award">{awardClass || 'Enter grades'}</span>
+            <span className="hud-credits">{earned} / {GRADUATION_CREDITS} Cr</span>
+          </div>
+          <button
+            type="button"
+            className="hud-quick-btn"
+            onClick={handleDownloadResultSheet}
+            title="Download result sheet PDF"
+          >
+            PDF Sheet
+          </button>
+        </div>
+      </aside>
     </div>
   );
 }
