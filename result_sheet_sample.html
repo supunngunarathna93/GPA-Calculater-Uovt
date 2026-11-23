@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UOVT Academic Result Sheet</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #111114;
+      background: #ffffff;
+      padding: 24px 32px;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .sheet-header {
+      text-align: center;
+      border-bottom: 2px solid #0b0b0d;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    .uni-emblem {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 19pt;
+      letter-spacing: 0.05em;
+      color: #0b0b0d;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .faculty-line {
+      font-size: 10.5pt;
+      color: #4a4a50;
+      font-weight: 500;
+    }
+    .doc-badge {
+      display: inline-block;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 14pt;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #8c6e2c;
+      margin-top: 10px;
+    }
+    .meta-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      background: #faf9f6;
+      border: 1px solid #e5e1d8;
+      border-radius: 6px;
+      padding: 12px 18px;
+      margin-bottom: 22px;
+    }
+    .meta-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5pt;
+    }
+    .meta-label { color: #666; font-weight: 500; }
+    .meta-val { font-weight: 600; color: #111; }
+    .meta-val.award { color: #8c6e2c; font-weight: 700; font-size: 10.5pt; }
+    .meta-val.fgpa { font-family: 'DM Serif Display', serif; color: #8c6e2c; font-size: 13pt; }
+
+    .sem-card {
+      margin-bottom: 16px;
+      border: 1px solid #dcd7ce;
+      border-radius: 5px;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+    .sem-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f4f2ed;
+      padding: 7px 12px;
+      border-bottom: 1px solid #dcd7ce;
+    }
+    .sem-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 11pt;
+      color: #0b0b0d;
+    }
+    .sem-sgpa-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #8c6e2c;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.8pt;
+    }
+    thead th {
+      background: #faf9f7;
+      border-bottom: 1px solid #d0cbc2;
+      padding: 5px 8px;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #555;
+    }
+    tbody td {
+      padding: 5px 8px;
+      border-bottom: 1px solid #ece8e1;
+      vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    td.col-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 8pt;
+      color: #222;
+      white-space: nowrap;
+    }
+    td.col-num {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    td.col-grade {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 9pt;
+      color: #0b0b0d;
+    }
+    td.col-type {
+      font-size: 8pt;
+      color: #666;
+    }
+    .doc-footer {
+      margin-top: 28px;
+      padding-top: 12px;
+      border-top: 1px solid #dcd7ce;
+      font-size: 8pt;
+      color: #777;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="sheet-header">
+    <h1 class="uni-emblem">UNIVERSITY OF VOCATIONAL TECHNOLOGY</h1>
+    <div class="faculty-line">Faculty of Information Technology &bull; B.Tech Degree Programme</div>
+    <div class="doc-badge">Official Student Academic Result Sheet</div>
+  </header>
+
+  <div class="meta-panel">
+    <div class="meta-item">
+      <span class="meta-label">Degree Programme:</span>
+      <span class="meta-val">B.Tech in Multimedia & Web Technology</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Date Generated:</span>
+      <span class="meta-val">23 Nov 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Final GPA (FGPA):</span>
+      <span class="meta-val fgpa">3.85</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Academic Award:</span>
+      <span class="meta-val award">First Class</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Credits Earned:</span>
+      <span class="meta-val">96 / 180 Credits</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Grade Points Total:</span>
+      <span class="meta-val">338.4 (88 GPA Credits Graded)</span>
+    </div>
+  </div>
+
+  
+    <div class="sem-card">
+      <div class="sem-card-head">
+        <span class="sem-title">Year 1 — Semester 1</span>
+        <span class="sem-sgpa-tag">SGPA: 3.86</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Module Code</th>
+            <th>Module Title</th>
+            <th style="text-align:right;">Credits</th>
+            <th>Type</th>
+            <th style="text-align:center;">Grade</th>
+            <th style="text-align:right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td class="col-code">IT103011</td>
+              <td>Mathematics for ICT I</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A+</td>
+              <td class="col-num">12.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT104021</td>
+              <td>Computer Programming</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT104031</td>
+              <td>Software Development Practices</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A-</td>
+              <td class="col-num">14.8</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT103041</td>
+              <td>Digital Electronics</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">12.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT103051</td>
+              <td>Data Communication and Networks</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">B+</td>
+              <td class="col-num">9.9</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT103061</td>
+              <td>Database Design</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">12.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT104071</td>
+              <td>Internet Technologies</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A+</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">LS103101</td>
+              <td>Communication Skills in English I</td>
+              <td class="col-num">3</td>
+              <td class="col-type">Non-GPA</td>
+              <td class="col-grade">Pass</td>
+              <td class="col-num">—</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sem-card">
+      <div class="sem-card-head">
+        <span class="sem-title">Year 1 — Semester 2</span>
+        <span class="sem-sgpa-tag">SGPA: 3.84</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Module Code</th>
+            <th>Module Title</th>
+            <th style="text-align:right;">Credits</th>
+            <th>Type</th>
+            <th style="text-align:center;">Grade</th>
+            <th style="text-align:right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td class="col-code">IT202011</td>
+              <td>Operating Systems</td>
+              <td class="col-num">2</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">8.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT203021</td>
+              <td>Mathematics for ICT II</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A-</td>
+              <td class="col-num">11.1</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT203031</td>
+              <td>Computer Architecture</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">B+</td>
+              <td class="col-num">9.9</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT204041</td>
+              <td>Data Structures and Algorithms</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT206051</td>
+              <td>Database Systems and Programming</td>
+              <td class="col-num">6</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">24.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT204061</td>
+              <td>Visual Programming I</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A+</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT206071</td>
+              <td>Web Programming</td>
+              <td class="col-num">6</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">24.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT203081</td>
+              <td>Computer Networks</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">B+</td>
+              <td class="col-num">9.9</td>
+            </tr>
+            <tr>
+              <td class="col-code">LS203111</td>
+              <td>Communication Skills in English II</td>
+              <td class="col-num">3</td>
+              <td class="col-type">Non-GPA</td>
+              <td class="col-grade">Pass</td>
+              <td class="col-num">—</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sem-card">
+      <div class="sem-card-head">
+        <span class="sem-title">Year 2 — Semester 1</span>
+        <span class="sem-sgpa-tag">SGPA: 3.84</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Module Code</th>
+            <th>Module Title</th>
+            <th style="text-align:right;">Credits</th>
+            <th>Type</th>
+            <th style="text-align:center;">Grade</th>
+            <th style="text-align:right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td class="col-code">IT304011</td>
+              <td>Web Technology and Applications</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT304021</td>
+              <td>Platform Independent Programming</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT304071</td>
+              <td>Fundamentals of Mass Communication and Media Design</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A-</td>
+              <td class="col-num">14.8</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT303081</td>
+              <td>Art and Design</td>
+              <td class="col-num">3</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">12.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT306091</td>
+              <td>2D and 3D Graphics</td>
+              <td class="col-num">6</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A+</td>
+              <td class="col-num">24.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT304101</td>
+              <td>Video Production Techniques</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">B+</td>
+              <td class="col-num">13.2</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT304111</td>
+              <td>Animation Technology and Applications</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A</td>
+              <td class="col-num">16.0</td>
+            </tr>
+            <tr>
+              <td class="col-code">MS304121</td>
+              <td>Entrepreneurship Development and Management</td>
+              <td class="col-num">4</td>
+              <td class="col-type">GPA</td>
+              <td class="col-grade">A-</td>
+              <td class="col-num">14.8</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT302160</td>
+              <td>Psychology</td>
+              <td class="col-num">2</td>
+              <td class="col-type">Non-GPA &bull; Elective</td>
+              <td class="col-grade">Pass</td>
+              <td class="col-num">—</td>
+            </tr>
+            <tr>
+              <td class="col-code">IT302170</td>
+              <td>Soft Skills and Personal development</td>
+              <td class="col-num">2</td>
+              <td class="col-type">Non-GPA &bull; Elective</td>
+              <td class="col-grade">—</td>
+              <td class="col-num">—</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <footer class="doc-footer">
+    This academic summary is computed in accordance with the UOVT Student Handbook 2023–24 examination regulations.
+  </footer>
+
+</body>
+</html>
