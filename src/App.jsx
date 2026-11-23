@@ -264,8 +264,13 @@ export default function App() {
       {/* ── Sidebar ───────────────────────────────────────────────────────── */}
       <aside className="sidebar" aria-label="Summary and navigation">
         <header className="page-head">
-          <h1>UOVT GPA Calculator</h1>
-          <p className="subtitle">B.Tech &mdash; Handbook 2023&ndash;24</p>
+          <div className="brand-header">
+            <img src="/logo.svg" alt="UOVT Emblem" className="brand-logo" width="40" height="40" />
+            <div className="brand-titles">
+              <h1>UOVT GPA Calculator</h1>
+              <p className="subtitle">B.Tech &mdash; Handbook 2023&ndash;24</p>
+            </div>
+          </div>
           <div
             className="storage-status"
             title="All entered grades, selections, and custom modules are saved automatically in your browser."
@@ -440,6 +445,9 @@ export default function App() {
       <main className={`main-content ${gradedMods > 0 ? 'has-entered-grades' : ''}`} id="semesters">
         {/* Print-only official result sheet header */}
         <header className="print-only print-header">
+          <div className="print-logo-row">
+            <img src="/logo.svg" alt="UOVT Crest" className="print-logo" width="56" height="56" />
+          </div>
           <div className="print-uni-title">UNIVERSITY OF VOCATIONAL TECHNOLOGY</div>
           <div className="print-faculty">
             Faculty of Information Technology &bull; B.Tech Degree Programme
@@ -489,14 +497,19 @@ export default function App() {
 
         {/* ── Main content course header ──────────────────────────────────── */}
         <header className="course-screen-header">
-          <div className="course-badge">
-            <span className="course-dot" />
-            <span>UOVT &bull; Faculty of Information Technology</span>
+          <div className="course-header-row">
+            <img src="/logo.svg" alt="UOVT Logo" className="course-header-logo" width="44" height="44" />
+            <div className="course-header-text">
+              <div className="course-badge">
+                <span className="course-dot" />
+                <span>UOVT &bull; Faculty of Information Technology</span>
+              </div>
+              <h1 className="course-title">{programme.label}</h1>
+              <p className="course-meta">
+                B.Tech Curriculum &bull; Student Handbook 2023&ndash;24 &bull; 180 Credits Degree
+              </p>
+            </div>
           </div>
-          <h1 className="course-title">{programme.label}</h1>
-          <p className="course-meta">
-            B.Tech Curriculum &bull; Student Handbook 2023&ndash;24 &bull; 180 Credits Degree
-          </p>
         </header>
 
         {/* Semester Accordions grouped by year */}
