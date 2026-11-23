@@ -608,7 +608,16 @@ export default function App() {
                               className={`${mod.gpa ? '' : 'non-gpa'}${mod.type === 'E' ? ' elective' : ''}${isGraded ? ' is-graded' : ' is-ungraded'}${lastEditedCode === mod.code ? ' is-recently-edited' : ''}`}
                             >
                               <td className="code">{mod.code}</td>
-                              <td className="title">{mod.title}</td>
+                              <td className="title">
+                                <span className="mod-title-text">{mod.title}</span>
+                                <span className="mobile-mod-meta">
+                                  <span>{mod.code}</span>
+                                  <span>&bull;</span>
+                                  <span>{mod.credits} Cr</span>
+                                  {mod.type === 'E' && <span>&bull; Elective</span>}
+                                  {!mod.gpa && <span>&bull; Non-GPA</span>}
+                                </span>
+                              </td>
                               <td className="credits col-credits">{mod.credits}</td>
                               <td className="type col-type">
                                 {mod.gpa ? 'GPA' : 'Non-GPA'}
