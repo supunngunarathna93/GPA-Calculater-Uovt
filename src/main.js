@@ -1,4 +1,5 @@
 import "./style.css";
+import { inject } from "@vercel/analytics";
 import { PROGRAMMES } from "./data.js";
 import {
   GRADE_OPTIONS,
@@ -16,6 +17,9 @@ import {
   compulsoryGpaCredits,
   requiredAverage,
 } from "./gpa.js";
+
+// Initialize Vercel Web Analytics
+inject();
 
 const STORAGE_KEY = "uovt-gpa-calculator-v1";
 
