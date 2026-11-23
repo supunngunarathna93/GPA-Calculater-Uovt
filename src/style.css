@@ -237,14 +237,6 @@ body {
   transform: scale(1.015);
 }
 
-.stat-hero::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ffd875, var(--amber), transparent);
-}
-
 .stat-hero-top {
   display: flex;
   justify-content: space-between;
@@ -377,14 +369,6 @@ body {
 .screen-fgpa-banner.is-pulsing {
   border-color: #ffd875;
   box-shadow: 0 12px 42px rgba(0, 0, 0, 0.7), 0 0 36px rgba(212, 168, 67, 0.4);
-}
-
-.screen-fgpa-banner::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ffd875, var(--amber), transparent);
 }
 
 .screen-fgpa-banner .banner-left {
