@@ -122,6 +122,48 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* ─── Auto-save & Offline Indicator ─────────────────────────────────────── */
+.storage-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--sp-2);
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--smoke);
+  letter-spacing: 0.02em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(56, 178, 105, 0.6);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.status-dot.saving {
+  background: var(--amber);
+  box-shadow: 0 0 6px rgba(212, 168, 67, 0.8);
+  animation: pulse-dot 0.8s infinite alternate;
+}
+
+.status-dot.offline {
+  background: var(--warn);
+  box-shadow: 0 0 6px rgba(224, 82, 68, 0.8);
+}
+
+@keyframes pulse-dot {
+  from { opacity: 0.4; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1.15); }
+}
+
 /* ─── Programme tabs ─────────────────────────────────────────────────────── */
 .programme-tabs {
   display: flex;

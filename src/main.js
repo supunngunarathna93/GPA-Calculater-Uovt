@@ -24,6 +24,7 @@ const defaultState = () => ({
   entries: {}, // { [moduleCode]: { grade, marks } }
   custom: [], // { id, programme, semesterId, code, title, credits, gpa, type }
   openSemesters: {}, // { [semesterId]: boolean } — default true if missing
+  targetFloor: 3.7,
 });
 
 function loadState() {
@@ -37,8 +38,31 @@ function loadState() {
   }
 }
 
+function updateStorageStatus(mode) {
+  const textEl = document.getElementById("status-text");
+  const dotEl = document.querySelector(".status-dot");
+  if (!textEl || !dotEl) return;
+  if (!navigator.onLine) {
+    dotEl.className = "status-dot offline";
+    textEl.innerHTML = "Offline &bull; Saved locally";
+    return;
+  }
+  if (mode === "saving") {
+    dotEl.className = "status-dot saving";
+    textEl.innerHTML = "Saving progress...";
+  } else {
+    dotEl.className = "status-dot saved";
+    textEl.innerHTML = "Auto-saved &bull; Safe offline";
+  }
+}
+
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateStorageStatus("saved");
+  } catch (err) {
+    console.warn("Storage warning:", err);
+  }
 }
 
 let state = loadState();
@@ -126,6 +150,10 @@ function render() {
         <header class="page-head">
           <h1>UOVT GPA Calculator</h1>
           <p class="subtitle">B.Tech &mdash; Handbook 2023&ndash;24</p>
+          <div class="storage-status" title="All entered grades, selections, and custom modules are saved automatically in your browser.">
+            <span class="status-dot ${navigator.onLine ? "saved" : "offline"}"></span>
+            <span class="status-text" id="status-text">${navigator.onLine ? "Auto-saved &bull; Safe offline" : "Offline &bull; Saved locally"}</span>
+          </div>
         </header>
 
         <!-- Programme switcher -->
@@ -186,7 +214,7 @@ function render() {
           <p class="planner-heading">What do I need for&hellip;</p>
           <div class="planner-row">
             <select id="target-class">
-              ${CLASS_FLOORS.map((c) => `<option value="${c.floor}">${esc(c.name)} (${c.floor.toFixed(2)}+)</option>`).join("")}
+              ${CLASS_FLOORS.map((c) => `<option value="${c.floor}" ${(state.targetFloor ?? 3.7) === c.floor ? "selected" : ""}>${esc(c.name)} (${c.floor.toFixed(2)}+)</option>`).join("")}
             </select>
           </div>
           <p id="planner-result" class="planner-result"></p>
@@ -398,6 +426,10 @@ function updatePlanner() {
   const result = document.getElementById("planner-result");
   if (!select || !result) return;
   const floor = Number(select.value);
+  if (state.targetFloor !== floor) {
+    state.targetFloor = floor;
+    saveState();
+  }
   const programme = PROGRAMMES[state.programme];
   const { needed, remainingCredits } = requiredAverage(programme, state.entries, floor);
   if (remainingCredits === 0) {
@@ -502,6 +534,9 @@ function bindEvents() {
 
   const target = document.getElementById("target-class");
   if (target) target.addEventListener("change", updatePlanner);
+
+  window.addEventListener("online", () => updateStorageStatus("saved"));
+  window.addEventListener("offline", () => updateStorageStatus("offline"));
 
   const resetBtn = document.getElementById("reset-btn");
   if (resetBtn) {
