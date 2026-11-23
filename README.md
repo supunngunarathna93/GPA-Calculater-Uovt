@@ -1,72 +1,129 @@
+<div align="center">
+
 # UOVT GPA Calculator
 
-A GPA calculator for the University of Vocational Technology (UOVT) B.Tech
-degrees, built from the **Student Handbook 2023–24** (Faculty of Information
-Technology). Plain HTML + CSS + JavaScript, built with **Vite** and **npm**.
-No accounts, no server, no database — your grades are saved in your own
-browser (local storage).
+**A modern, privacy-first GPA calculator and academic result sheet generator for University of Vocational Technology (UOVT) B.Tech students.**
 
-## Programmes included
+[![Built with Vite](https://img.shields.io/badge/Built_with-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Zero External Dependencies](https://img.shields.io/badge/Dependencies-Zero-success?style=flat-square)](package.json)
+[![Handbook Compliant](https://img.shields.io/badge/UOVT_Handbook-2023--24-d4a843?style=flat-square)](https://uovt.ac.lk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-- B.Tech in Multimedia & Web Technology (default)
-- B.Tech in Software Technology
-- B.Tech in Network Technology
+<br />
 
-Every module, code and credit for all six semesters is pre-loaded from the
-handbook tables.
+<img src="./result_sheet_preview.png" alt="UOVT Result Sheet Preview" width="700" style="border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);" />
 
-## How to launch it
+</div>
 
-You need **Node.js 18 or newer** installed
-(https://nodejs.org — the LTS version is fine).
+---
+
+## Overview
+
+Designed specifically for students in the **Faculty of Information Technology** at the **University of Vocational Technology (UOVT)**, Sri Lanka.
+
+Pre-loaded with every module code, title, and credit weighting from the official **Student Handbook 2023–24**, this calculator allows students to track semester performance, plan future targets, and export a clean, printable official **Academic Result Sheet (PDF)**.
+
+### ✨ Highlights
+
+- **Direct Grade Entry**: Seamlessly select letter grades (`A+` down to `F`, `Pass`, `I`) matching official university transcripts.
+- **Real-Time GPA Engine**: Computes Semester GPA (**SGPA**) and Final Cumulative GPA (**FGPA**) weighted by credits and rounded to 2 decimal places.
+- **One-Click PDF Result Sheet**: Generates an institutional-style transcript with university letterhead, completed semesters, SGPA badges, and degree award standing.
+- **Target Class Planner**: Mathematically determines the exact average grade points required on your remaining credits to secure a target class (*First Class*, *Second Upper*, etc.).
+- **Amber & Ink Theme**: A dark scholarly interface with sticky sidebar navigation, collapsible year/semester accordions, and high typographic contrast.
+- **100% Private & Offline**: Zero tracking, zero accounts, and zero cloud databases. All entered grades persist securely in your browser's `localStorage`.
+
+---
+
+## Supported Programmes
+
+Pre-configured with all 6 semesters and 167 compulsory GPA credits:
+
+| Degree Programme | Short Code | Compulsory Credits |
+| :--- | :---: | :---: |
+| **B.Tech in Multimedia & Web Technology** | `MWT` | 167 GPA Cr. |
+| **B.Tech in Software Technology** | `ST` | 167 GPA Cr. |
+| **B.Tech in Network Technology** | `NT` | 167 GPA Cr. |
+
+> *Custom modules can be added to any semester at any time.*
+
+---
+
+## Academic Grading Scale
+
+Accurately modeled from the **UOVT Student Handbook (2023–24)**:
+
+| Grade | Points | Classification Floor |
+| :---: | :---: | :--- |
+| **A+ / A** | `4.0` | **First Class**: $\text{FGPA} \ge 3.70$ |
+| **A−** | `3.7` | **Second Class (Upper Division)**: $3.30 \le \text{FGPA} \le 3.69$ |
+| **B+** | `3.3` | **Second Class (Lower Division)**: $2.70 \le \text{FGPA} \le 3.29$ |
+| **B** | `3.0` | **Ordinary Pass**: $2.00 \le \text{FGPA} \le 2.69$ |
+| **B−** | `2.7` | **Graduation Requirement**: Min. 180 total credits & $\text{FGPA} \ge 2.00$ |
+| **C+** | `2.3` | *Non-GPA (NG) and elective modules with no entered grade are excluded from calculations.* |
+| **C** | `2.0` | |
+| **C−** | `1.7` | |
+| **D+** | `1.3` | |
+| **D** | `1.0` | |
+| **F** | `0.0` | |
+| **Pass / I** | `—` | *Pass earns module credits toward graduation but is excluded from GPA denominator.* |
+
+$$\text{SGPA} = \frac{\sum (\text{Credits} \times \text{Grade Points})}{\sum \text{Credits}}$$
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
+
+### Installation & Run
 
 ```bash
-# 1. Unzip this folder and open a terminal inside it
-cd gpa-calculator-vite
+# 1. Clone the repository
+git clone https://github.com/supunngunarathna93/GPA-Calculater-Uovt.git
 
-# 2. Install the one dependency (Vite) — only needed the first time
+# 2. Navigate to project root
+cd GPA-Calculater-Uovt
+
+# 3. Install dependencies
 npm install
 
-# 3. Start it
+# 4. Start the development server
 npm run dev
 ```
 
-Then open the address it prints, usually **http://localhost:5173**.
+Open your browser at `http://localhost:5173`.
 
-To stop it, press `Ctrl+C` in the terminal.
-
-## Build a static version instead
+### Production Build
 
 ```bash
-npm run build    # creates a dist/ folder
-npm run preview  # serves the built version at http://localhost:4173
+npm run build    # Compiles production-ready bundle to /dist
+npm run preview  # Previews production build locally
 ```
 
-## How it works
+---
 
-- Pick a grade for each module, or type your **marks** and it converts them
-  using the handbook table (A+/A = 4.0, A− = 3.7, B+ = 3.3, B = 3.0,
-  B− = 2.7, C+ = 2.3, C = 2.0, C− = 1.7, D+ = 1.3, D = 1.0, F = below 30).
-- **SGPA** per semester and **FGPA** for the whole degree, credit-weighted
-  and rounded to 2 decimals, exactly as the handbook defines them.
-- Class shown live: First Class ≥ 3.70, Second Upper 3.30–3.69,
-  Second Lower 2.70–3.29, Ordinary Pass 2.00–2.69.
-- Non-GPA modules are shown but never counted. Elective modules count only
-  once you enter a grade for them.
-- A grade of D or above earns the module's credits. F earns no credits and
-  counts as 0.0 grade points over its credits (the handbook prints "–" for
-  F grade points; 0.0 is the standard reading, and the app says so on the
-  page). "I" (Incomplete) and "Pass" are excluded from GPA.
-- Graduation needs 180 total credits and FGPA ≥ 2.00.
-- The "What do I need for…" planner shows the average you still need on
-  your remaining compulsory GPA credits to reach a target class.
-- Add a module that isn't in the list, or clear a programme and start over.
+## Project Structure
 
-## Files
+```text
+├── index.html                   # Entry page shell
+├── package.json                 # Project configuration & scripts
+├── vite.config.js               # Vite build configuration
+├── src/
+│   ├── main.js                  # Application runtime, DOM rendering & event handling
+│   ├── data.js                  # Complete UOVT module catalogues for all 3 B.Tech degrees
+│   ├── gpa.js                   # Pure GPA mathematical engine & academic award evaluator
+│   └── style.css                # Custom design system tokens & print styles
+└── UOVT_Academic_Result_Sheet.pdf # Sample generated official result sheet
+```
 
-- `index.html` — page shell
-- `src/main.js` — the app (rendering, saving, events)
-- `src/data.js` — module catalogue from the handbook
-- `src/gpa.js` — the GPA maths (grade scale, SGPA/FGPA, classes)
-- `src/style.css` — styling
-- `vite.config.js` — Vite settings
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+<div align="center">
+  <sub>Built with precision for UOVT B.Tech undergraduates.</sub>
+</div>
